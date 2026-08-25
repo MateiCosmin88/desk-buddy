@@ -29,16 +29,31 @@ void Bulldog::begin() {
     renderFace();
 }
 
-void Bulldog::showPrompt(const Prompt& p) {
+void Bulldog::drawText(const char* line1, const char* line2) {
     _tft.fillRect(0, TEXT_Y, SCR_W, TEXT_H, BG);
     _tft.setTextDatum(TC_DATUM);
     _tft.setTextColor(TFT_WHITE, BG);
     _tft.setTextFont(4);
-    _tft.drawString(p.line1, SCR_W / 2, TEXT_Y + 4);
+    _tft.drawString(line1, SCR_W / 2, TEXT_Y + 4);
     _tft.setTextFont(2);
     _tft.setTextColor(TFT_eSPI::color565(180, 200, 230), BG);
-    _tft.drawString(p.line2, SCR_W / 2, TEXT_Y + 34);
+    _tft.drawString(line2, SCR_W / 2, TEXT_Y + 34);
+}
+
+void Bulldog::showPrompt(const Prompt& p) {
+    drawText(p.line1, p.line2);
     setMood(p.mood);
+}
+
+void Bulldog::showCustom(const String& line1, const String& line2,
+                         Mood mood, uint32_t holdMs) {
+    drawText(line1.c_str(), line2.c_str());
+    setMood(mood);
+    _holdUntil = millis() + holdMs;
+}
+
+bool Bulldog::isHolding() const {
+    return millis() < _holdUntil;
 }
 
 void Bulldog::setMood(Mood m) {

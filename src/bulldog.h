@@ -1,4 +1,5 @@
 #pragma once
+#include <Arduino.h>
 #include <TFT_eSPI.h>
 #include "messages.h"
 
@@ -10,9 +11,12 @@ class Bulldog {
 public:
     Bulldog(TFT_eSPI& tft);
     void begin();
-    void showPrompt(const Prompt& p);   // draws text + sets matching mood
+    void showPrompt(const Prompt& p);   // auto-rotation, no hold applied
+    void showCustom(const String& line1, const String& line2,
+                    Mood mood, uint32_t holdMs);   // web / ntfy input
     void setMood(Mood mood);
-    void tick();                         // call every loop
+    void tick();                        // call every loop
+    bool isHolding() const;             // true while a custom prompt is showing
 private:
     TFT_eSPI&   _tft;
     TFT_eSprite _faceSpr;
@@ -23,7 +27,9 @@ private:
     bool        _eyesClosed   = false;
     int         _pawFrame     = -1;      // -1 = paw hidden
     uint32_t    _pawNextTick  = 0;
+    uint32_t    _holdUntil    = 0;
 
+    void drawText(const char* line1, const char* line2);
     void renderFace();
     void drawPaw();
     void drawRaisedPaws();
