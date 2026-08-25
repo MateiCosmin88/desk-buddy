@@ -1,0 +1,10 @@
+.pio/
+.pioenvs/
+.piolibdeps/
+.vscode/
+.idea/
+*.o
+*.d
+*.a
+build/
+dist/
