@@ -7,8 +7,8 @@
 static Bulldog*      s_buddy       = nullptr;
 static uint32_t      s_nextPollAt  = 0;
 
-// Small ring buffer of recently-seen message IDs so overlapping polls
-// don't display the same message twice.
+// Ring buffer of recently-seen message IDs so overlapping polls don't
+// display the same message twice.
 static const uint8_t ID_CACHE      = 8;
 static String        s_seenIds[ID_CACHE];
 static uint8_t       s_seenIdx     = 0;
@@ -47,8 +47,6 @@ void NtfyClient::tick() {
     if (now < s_nextPollAt) return;
     s_nextPollAt = now + NTFY_POLL_MS;
 
-    // Ask for slightly more than one poll interval so a delayed poll
-    // still catches messages posted in between.
     uint32_t sinceSec = (NTFY_POLL_MS / 1000) + 2;
     String url = String("http://ntfy.sh/") + NTFY_TOPIC +
                  "/json?poll=1&since=" + sinceSec + "s";
@@ -61,7 +59,6 @@ void NtfyClient::tick() {
     String body = http.getString();
     http.end();
 
-    // ntfy /json returns one JSON object per line.
     int start = 0;
     while (start < (int)body.length()) {
         int nl  = body.indexOf('\n', start);
@@ -92,8 +89,6 @@ void NtfyClient::tick() {
 
         String l1(title);
         String l2(message);
-        // If no title was set, promote the message body to line 1 so the
-        // buddy shows something readable rather than a blank top line.
         if (l1.length() == 0) { l1 = l2; l2 = ""; }
         if (l1.length() > 20) l1.remove(20);
         if (l2.length() > 26) l2.remove(26);

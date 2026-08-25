@@ -4,11 +4,11 @@
 enum Mood {
     MOOD_IDLE,      // just blink
     MOOD_WAVE,      // paw waving
-    MOOD_HAPPY,     // tongue out, big smile
-    MOOD_COFFEE,    // happy + steam icon
+    MOOD_HAPPY,     // tongue out
+    MOOD_COFFEE,    // happy + steaming coffee cup
     MOOD_SMOKE,     // cheeky wink
     MOOD_SLEEPY,    // yawn
-    MOOD_STRETCH    // paws raised (stretch)
+    MOOD_STRETCH    // paws raised
 };
 
 struct Prompt {

@@ -7,6 +7,6 @@
 class WebUI {
 public:
     WebUI(Bulldog& b);
-    void begin();          // starts HTTP server on port 80
-    void tick();           // handles pending requests; call every loop
+    void begin();
+    void tick();
 };

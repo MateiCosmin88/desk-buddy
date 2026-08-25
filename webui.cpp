@@ -107,8 +107,7 @@ void WebUI::begin() {
 
     server.on("/mood", HTTP_POST, []() {
         String m = server.hasArg("m") ? server.arg("m") : String("idle");
-        Mood mood = parseMood(m);
-        s_buddy->showCustom(String("Mood"), m, mood, CUSTOM_HOLD_MS);
+        s_buddy->showCustom(String("Mood"), m, parseMood(m), CUSTOM_HOLD_MS);
         server.send(200, "text/plain", "ok");
     });
 
