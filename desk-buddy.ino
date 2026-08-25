@@ -346,9 +346,9 @@ const char INDEX_HTML[] PROGMEM = R"HTML(
 <div id="status"></div>
 <script>
 const say=m=>{document.getElementById('status').textContent=m;clearTimeout(window._t);window._t=setTimeout(()=>document.getElementById('status').textContent='',2200)};
-function send(){const l1=document.getElementById('l1').value||'Hey there!';const l2=document.getElementById('l2').value||'';const m=document.getElementById('mood').value;
- fetch('/show',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'l1='+encodeURIComponent(l1)+'&l2='+encodeURIComponent(l2)+'&mood='+m}).then(r=>say(r.ok?'Sent!':'Error')).catch(()=>say('Offline'));}
-function mood(m){fetch('/mood?m='+m,{method:'POST'}).then(r=>say(r.ok?'Mood: '+m:'Error'));}
+const send=()=>{const l1=document.getElementById('l1').value||'Hey there!';const l2=document.getElementById('l2').value||'';const m=document.getElementById('mood').value;
+ fetch('/show',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'l1='+encodeURIComponent(l1)+'&l2='+encodeURIComponent(l2)+'&mood='+m}).then(r=>say(r.ok?'Sent!':'Error')).catch(()=>say('Offline'));};
+const mood=m=>{fetch('/mood?m='+m,{method:'POST'}).then(r=>say(r.ok?'Mood: '+m:'Error'));};
 </script></body></html>
 )HTML";
 
